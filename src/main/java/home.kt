@@ -6,24 +6,25 @@ fun main(args: Array<String>) {
     GlobalScope.launch(Dispatchers.Default) {
         println("----Coroutine Started thread= ${Thread.currentThread()}")
 
-        val number = async { secondLongOperation() }
+        val number = async { longOperation() }
         println("-----Awaiting for Second Job thread= ${Thread.currentThread()}")
 
-        longOperation(number.await())
+        secondLongOperation(number.await())
     }
     Thread.sleep(6000)
 
     println("lovely 2 thread= ${Thread.currentThread()}")
 }
 
-suspend fun longOperation(num: Int) {
-    Thread.sleep(2000)
-
-    println("-----lovely Long operations $num gotten! thread= ${Thread.currentThread()}")
+suspend fun secondLongOperation(num: Int) {
+    println("-----Second Long operation started")
+    delay(2000)
+    println("-----Second Long operation done $num gotten! thread= ${Thread.currentThread()}")
 }
 
-suspend fun secondLongOperation(): Int {
-    Thread.sleep(2000)
-    println("-----Second long operation done thread= ${Thread.currentThread()}")
+suspend fun longOperation(): Int {
+    println("-----Long operation started")
+    delay(2000)
+    println("-----long operation done thread= ${Thread.currentThread()}")
     return 20;
 }
